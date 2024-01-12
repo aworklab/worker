@@ -1,14 +1,14 @@
 # %%
 import pandas as pd
 import numpy as np
-
+# %%
 from importlib import reload
 import info
 # %%
 reload(info)
 # %%
 setting = info.setting;setting
-s3_setting = info.s3_setting;setting
+s3_setting = info.s3_setting;s3_setting
 # %%
 def get_table_info(info_file = setting) :
 
@@ -36,7 +36,7 @@ temp = temp.to_json(orient = 'columns')
 temp = temp.replace('\\','')
 temp = temp.replace('true','True')
 temp = temp.replace('false','False')
-temp = temp.replace('null','')
+temp = temp.replace('null','None')
 temp
 # %%
 temp
@@ -49,5 +49,10 @@ get_table_info(s3_setting)
 # %%
 
 # %%
+
+# %%
+pd.DataFrame(s3_setting)
+
+
 
 # %%
