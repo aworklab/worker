@@ -2,36 +2,50 @@
 import pandas as pd
 import numpy as np
 import keyring as kr
-
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
 # %%
 # 설치 
 #pip install --upgrade oauth2client 
 #pip install gspread
 #pip install PyOpenSSL
 
-'https://effortkim.com/%ED%8C%8C%EC%9D%B4%EC%8D%AC%EC%9C%BC%EB%A1%9C-%EA%B5%AC%EA%B8%80-%EC%8A%A4%ED%94%84%EB%A0%88%EB%93%9C%EC%8B%9C%ED%8A%B8-%ED%8E%B8%EC%A7%91-%EC%9E%90%EB%8F%99%ED%99%94%ED%95%98%EA%B8%B0/'
-
-#%%
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+'https://greeksharifa.github.io/references/2023/04/10/gspread-usage/'
 
 # %%
 # Authenticate with Google Sheets API
-json_is = ''
-
+json_is = 'gs4.json'
+url_is = 'https://docs.google.com/spreadsheets/d/1bG6oa_dU9Qzkj2kaGI_NCYZGzGAhO_pbn5w3hAKMQH8/edit#gid=923913297'
+key_is = '1bG6oa_dU9Qzkj2kaGI_NCYZGzGAhO_pbn5w3hAKMQH8'
+sheet_name = '433.AWS_Work'
 #%%
-scope = ['https://docs.google.com/spreadsheets/d/1bG6oa_dU9Qzkj2kaGI_NCYZGzGAhO_pbn5w3hAKMQH8/edit#gid=1089695495']
-creds = ServiceAccountCredentials.from_json_keyfile_name('wow.json', scope)
-client = gspread.authorize(creds)
+scopes = [
+    'https://www.googleapis.com/auth/spreadsheets',
+    'https://www.googleapis.com/auth/drive',
+    'https://spreadsheets.google.com/feed'
+]
+credentials = Credentials.from_service_account_file(
+    'gs4.json',
+    scopes=scopes
+)
 
-# Open the spreadsheet and select the worksheet by name
-spreadsheet = client.open('시트이름')
-worksheet = spreadsheet.worksheet('bs_db')
+gc = gspread.authorize(credentials)
 
-# Update a cell's value
-row_num = 5
-col_num = 5
-cell = worksheet.cell(row_num, col_num)
-cell.value = 'New Value'
-worksheet.update_cell(row_num, col_num, 'TestValue')
+gc.open(sheet_name)
+
+#%% 
+#gc = gspread.service_account('gs4.json')
+gc = gspread.service_account('gs4.json')
+
+sh = gc.open('433.AWS_Work')
+sh = gc.open_by_key(key_is)
+sh = gc.open_by_url(url_is)
+#%%
+sheet = sh.worksheets()
+sheet = sh.worksheet('s3_url')
+# %%
+df = pd.DataFrame(sheet.get_all_values())
+# %%
+pd.DataFrame(sheet.get_all_records())
 # %%
