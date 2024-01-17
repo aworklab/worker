@@ -1,4 +1,5 @@
 game_code = 'G_SPD' # game code is
+time_difference = 9
 
 list_wotan_delabs = [
    'dau_day','nru_ru_day','job_status'

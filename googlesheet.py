@@ -17,10 +17,11 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 # %%
 # Authenticate with Google Sheets API
-scope = ['https://spreadsheets.google.com/feeds',
-         'https://www.googleapis.com/auth/drive']
+json_is = ''
+
 #%%
-creds = ServiceAccountCredentials.from_json_keyfile_name('json', scope)
+scope = ['https://docs.google.com/spreadsheets/d/1bG6oa_dU9Qzkj2kaGI_NCYZGzGAhO_pbn5w3hAKMQH8/edit#gid=1089695495']
+creds = ServiceAccountCredentials.from_json_keyfile_name('wow.json', scope)
 client = gspread.authorize(creds)
 
 # Open the spreadsheet and select the worksheet by name
